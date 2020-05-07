@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "debug": "DEBUG=words-matching-cards:* npm start"
+    "dev": "DEBUG=words-matching-cards:* nodemon ./bin/www"
   },
   "dependencies": {
     "connect-history-api-fallback": "^1.6.0",
@@ -12,6 +12,12 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "pg": "^8.0.3",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
   }
 }

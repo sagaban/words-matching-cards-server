@@ -1,0 +1,18 @@
+{
+  "development": {
+    "database": "word-cards",
+    "username": "santiago",
+    "password": "12345678",
+    "databaseOptions": {
+      "host": "localhost",
+      "dialect": "postgres"
+    }
+  },
+  "production": {
+    "use_env_variable": true,
+    "databaseOptions": {
+      "host": "localhost",
+      "dialect": "postgres"
+    }
+  }
+}
