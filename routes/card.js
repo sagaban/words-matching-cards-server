@@ -34,7 +34,7 @@ module.exports = function (router) {
     // const tag = req.body.tags ? req.body.tags.map((id) => ({ id })) : [];
     Card.create({
       word: req.body.word,
-      translation: req.body.word,
+      translation: req.body.translation,
       notes: req.body.notes,
     })
       .then((newCard) => {

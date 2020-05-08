@@ -1,10 +1,10 @@
-const Card = require("../models").Card;
+// const Card = require("../models").Card;
 const Tag = require("../models").Tag;
 
-module.exports = function(router) {
+module.exports = function (router) {
   router.get("/tags", (req, res) => {
     Tag.findAll({
-      include: [Card]
+      // include: [{ model: Card, as: "cards" }],
     })
       .then(tags => {
         res.json(tags);
@@ -14,7 +14,7 @@ module.exports = function(router) {
 
   router.get("/tags/:id", (req, res) => {
     Tag.findAll({
-      where: { id: req.params.id }
+      where: { id: req.params.id },
     })
       .then(tag => {
         res.json(tag[0]);
@@ -24,7 +24,7 @@ module.exports = function(router) {
 
   router.post("/tags", (req, res) => {
     Tag.create({
-      name: req.body.name
+      name: req.body.name,
     })
       .then(tag => {
         res.json(tag);
@@ -42,7 +42,7 @@ module.exports = function(router) {
 
   router.delete("/tags/:id", (req, res) => {
     Tag.destroy({
-      where: { id: req.params.id }
+      where: { id: req.params.id },
     })
       .then(tag => {
         res.json(tag);
