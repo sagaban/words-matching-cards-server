@@ -1,7 +1,7 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const Word = sequelize.define(
-    "Word",
+  const Card = sequelize.define(
+    "Card",
     {
       // Model attributes are defined here
       word: {
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       // Other model options go here
     }
   );
-  Word.associate = function (models) {
-    Word.belongsToMany(models.Tag, { through: "word_tags" });
+  Card.associate = function (models) {
+    Card.belongsToMany(models.Tag, { through: "card_tags" });
   };
 };

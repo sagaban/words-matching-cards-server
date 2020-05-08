@@ -1,10 +1,10 @@
-const Word = require("../models").Word;
+const Card = require("../models").Card;
 const Tag = require("../models").Tag;
 
 module.exports = function(router) {
   router.get("/tags", (req, res) => {
     Tag.findAll({
-      include: [Word]
+      include: [Card]
     })
       .then(tags => {
         res.json(tags);
