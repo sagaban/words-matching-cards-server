@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       word: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true
       },
       translation: {
         type: DataTypes.STRING,

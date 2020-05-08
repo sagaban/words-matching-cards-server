@@ -3,9 +3,7 @@ const Tag = require("../models").Tag;
 const all = require("../models");
 
 module.exports = function (router) {
-  router.get("/api/words", (req, res) => {
-    console.log("hola", all);
-
+  router.get("/words", (req, res) => {
     Word.findAll({
       include: [Tag],
     })
@@ -15,7 +13,7 @@ module.exports = function (router) {
       .catch((err) => res.json(err));
   });
 
-  router.get("/api/words/:id", (req, res) => {
+  router.get("/words/:id", (req, res) => {
     Word.findAll({
       where: { id: req.params.id },
     })
@@ -25,7 +23,7 @@ module.exports = function (router) {
       .catch((err) => res.json(err));
   });
 
-  router.post("/api/words", (req, res) => {
+  router.post("/words", (req, res) => {
     Word.create({
       word: req.body.word,
       translation: req.body.word,
@@ -37,7 +35,7 @@ module.exports = function (router) {
       .catch((err) => res.json(err));
   });
 
-  router.put("/api/words/:id", (req, res) => {
+  router.put("/words/:id", (req, res) => {
     Word.update({ name: req.body.name }, { where: { id: req.params.id } })
       .then((updatedWord) => {
         res.json(updatedWord);
@@ -45,7 +43,7 @@ module.exports = function (router) {
       .catch((err) => res.json(err));
   });
 
-  router.delete("/api/words/:id", (req, res) => {
+  router.delete("/words/:id", (req, res) => {
     Word.destroy({
       where: { id: req.params.id },
     })

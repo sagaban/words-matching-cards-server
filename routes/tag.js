@@ -2,7 +2,7 @@ const Word = require("../models").Word;
 const Tag = require("../models").Tag;
 
 module.exports = function(router) {
-  router.get("/api/tags", (req, res) => {
+  router.get("/tags", (req, res) => {
     Tag.findAll({
       include: [Word]
     })
@@ -12,7 +12,7 @@ module.exports = function(router) {
       .catch(err => res.json(err));
   });
 
-  router.get("/api/tags/:id", (req, res) => {
+  router.get("/tags/:id", (req, res) => {
     Tag.findAll({
       where: { id: req.params.id }
     })
@@ -22,7 +22,7 @@ module.exports = function(router) {
       .catch(err => res.json(err));
   });
 
-  router.post("/api/tags", (req, res) => {
+  router.post("/tags", (req, res) => {
     Tag.create({
       name: req.body.name
     })
@@ -32,7 +32,7 @@ module.exports = function(router) {
       .catch(err => res.json(err));
   });
 
-  router.put("/api/tags/:id", (req, res) => {
+  router.put("/tags/:id", (req, res) => {
     Tag.update({ name: req.body.name }, { where: { id: req.params.id } })
       .then(updatedTag => {
         res.json(updatedTag);
@@ -40,7 +40,7 @@ module.exports = function(router) {
       .catch(err => res.json(err));
   });
 
-  router.delete("/api/tags/:id", (req, res) => {
+  router.delete("/tags/:id", (req, res) => {
     Tag.destroy({
       where: { id: req.params.id }
     })

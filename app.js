@@ -1,19 +1,28 @@
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
 
-var app = express();
-
-app.use(require("connect-history-api-fallback")());
+const app = express();
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-require("./routes/word")(app);
-require("./routes/tag")(app);
+app.use("/api", require("./routes/index"));
+
+app.use(require("connect-history-api-fallback")());
 
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(errorHandler);
+
+function errorHandler(err, req, res, next) {
+  if (res.headersSent) {
+    return next(err);
+  }
+  res.status(500);
+  res.render("error", { error: err });
+}
 
 module.exports = app;

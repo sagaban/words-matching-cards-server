@@ -32,7 +32,7 @@ fs.readdirSync(__dirname)
     );
   })
   .forEach((file) => {
-    const model = sequelize["import"](path.join(__dirname, file));
+    sequelize["import"](path.join(__dirname, file));
   });
 
 let db = { ...sequelize.models };
@@ -46,6 +46,6 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-sequelize.sync();
+sequelize.sync({ force: false });
 
 module.exports = db;
