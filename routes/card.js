@@ -5,12 +5,19 @@ const all = require("../models");
 module.exports = function (router) {
   router.get("/cards", (req, res) => {
     Card.findAll({
-      include: [Tag],
+      include: [
+        {
+          model: Tag,
+          as: 'tags',
+          attributes: ["id"],
+          through: { attributes: [] },
+        },
+      ],
     })
       .then((cards) => {
         res.json(cards);
       })
-      .catch((err) => res.json(err));
+      .catch((err) => res.status(500).send(err));
   });
 
   router.get("/cards/:id", (req, res) => {
@@ -20,19 +27,29 @@ module.exports = function (router) {
       .then((cards) => {
         res.json(cards[0]);
       })
-      .catch((err) => res.json(err));
+      .catch((err) => res.status(500).send(err));
   });
 
   router.post("/cards", (req, res) => {
+    // const tag = req.body.tags ? req.body.tags.map((id) => ({ id })) : [];
     Card.create({
       word: req.body.word,
       translation: req.body.word,
       notes: req.body.notes,
     })
-      .then((data) => {
-        res.json(data);
+      .then((newCard) => {
+        if (req.body.tags && req.body.tags.length) {
+          Tag.findAll({ where: { id: req.body.tags } })
+            .then((tagObjects) => {
+              newCard.addTags(tagObjects);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+        res.json(newCard);
       })
-      .catch((err) => res.json(err));
+      .catch((err) => res.status(500).send(err));
   });
 
   router.put("/cards/:id", (req, res) => {
@@ -47,7 +64,7 @@ module.exports = function (router) {
       .then((updatedCard) => {
         res.json(updatedCard);
       })
-      .catch((err) => res.json(err));
+      .catch((err) => res.status(500).send(err));
   });
 
   router.delete("/cards/:id", (req, res) => {
@@ -57,6 +74,6 @@ module.exports = function (router) {
       .then((word) => {
         res.json(word);
       })
-      .catch((err) => res.json(err));
+      .catch((err) => res.status(500).send(err));
   });
 };

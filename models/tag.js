@@ -6,12 +6,12 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
       },
     },
     {}
   );
   Tag.associate = function (models) {
-    Tag.belongsToMany(models.Card, { through: "card_tags" });
+    Tag.belongsToMany(models.Card, { as: "cards", through: "card_tags" });
   };
 };

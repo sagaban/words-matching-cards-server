@@ -9,7 +9,7 @@ module.exports = function(router) {
       .then(tags => {
         res.json(tags);
       })
-      .catch(err => res.json(err));
+      .catch(err => res.status(500).send(err));
   });
 
   router.get("/tags/:id", (req, res) => {
@@ -19,7 +19,7 @@ module.exports = function(router) {
       .then(tag => {
         res.json(tag[0]);
       })
-      .catch(err => res.json(err));
+      .catch(err => res.status(500).send(err));
   });
 
   router.post("/tags", (req, res) => {
@@ -29,7 +29,7 @@ module.exports = function(router) {
       .then(tag => {
         res.json(tag);
       })
-      .catch(err => res.json(err));
+      .catch(err => res.status(500).send(err));
   });
 
   router.put("/tags/:id", (req, res) => {
@@ -37,7 +37,7 @@ module.exports = function(router) {
       .then(updatedTag => {
         res.json(updatedTag);
       })
-      .catch(err => res.json(err));
+      .catch(err => res.status(500).send(err));
   });
 
   router.delete("/tags/:id", (req, res) => {
@@ -47,6 +47,6 @@ module.exports = function(router) {
       .then(tag => {
         res.json(tag);
       })
-      .catch(err => res.json(err));
+      .catch(err => res.status(500).send(err));
   });
 };

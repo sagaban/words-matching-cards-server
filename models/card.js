@@ -22,6 +22,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   Card.associate = function (models) {
-    Card.belongsToMany(models.Tag, { through: "card_tags" });
+    Card.belongsToMany(models.Tag, { as: 'tags', through: "card_tags" });
   };
 };
