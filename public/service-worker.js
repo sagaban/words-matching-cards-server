@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.44041a4b22c0f6681959a8bd01c6ff94.js"
+  "/precache-manifest.9320673057caddfd31fab010631ba4d5.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "word-cards-client"});
