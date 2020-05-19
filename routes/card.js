@@ -8,26 +8,34 @@ module.exports = function (router) {
       include: [
         {
           model: Tag,
-          as: 'tags',
+          as: "tags",
           attributes: ["id"],
           through: { attributes: [] },
         },
       ],
     })
-      .then((cards) => {
+      .then(cards => {
         res.json(cards);
       })
-      .catch((err) => res.status(500).send(err));
+      .catch(err => res.status(500).send(err));
   });
 
   router.get("/cards/:id", (req, res) => {
     Card.findAll({
       where: { id: req.params.id },
+      include: [
+        {
+          model: Tag,
+          as: "tags",
+          attributes: ["id"],
+          through: { attributes: [] },
+        },
+      ],
     })
-      .then((cards) => {
+      .then(cards => {
         res.json(cards[0]);
       })
-      .catch((err) => res.status(500).send(err));
+      .catch(err => res.status(500).send(err));
   });
 
   router.post("/cards", (req, res) => {
@@ -37,19 +45,19 @@ module.exports = function (router) {
       translation: req.body.translation,
       notes: req.body.notes,
     })
-      .then((newCard) => {
+      .then(newCard => {
         if (req.body.tags && req.body.tags.length) {
           Tag.findAll({ where: { id: req.body.tags } })
-            .then((tagObjects) => {
+            .then(tagObjects => {
               newCard.addTags(tagObjects);
             })
-            .catch((err) => {
+            .catch(err => {
               console.log(err);
             });
         }
         res.json(newCard);
       })
-      .catch((err) => res.status(500).send(err));
+      .catch(err => res.status(500).send(err));
   });
 
   router.put("/cards/:id", (req, res) => {
@@ -61,19 +69,19 @@ module.exports = function (router) {
       },
       { where: { id: req.params.id } }
     )
-      .then((updatedCard) => {
+      .then(updatedCard => {
         res.json(updatedCard);
       })
-      .catch((err) => res.status(500).send(err));
+      .catch(err => res.status(500).send(err));
   });
 
   router.delete("/cards/:id", (req, res) => {
     Card.destroy({
       where: { id: req.params.id },
     })
-      .then((word) => {
+      .then(word => {
         res.json(word);
       })
-      .catch((err) => res.status(500).send(err));
+      .catch(err => res.status(500).send(err));
   });
 };
