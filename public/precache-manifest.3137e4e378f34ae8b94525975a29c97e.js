@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "923900a7c6a24f8abebb",
-    "url": "/css/add-card.b8680e20.css"
+    "revision": "a5b4147c89a97a67f4ba",
+    "url": "/css/add-card.9c358ed3.css"
   },
   {
-    "revision": "d02cab1bcd854ecc01ce",
-    "url": "/css/app.795bf6e8.css"
+    "revision": "d67324b21ae54fae0dc6",
+    "url": "/css/app.bca9d624.css"
   },
   {
-    "revision": "76c2f6e7e440654117d6",
+    "revision": "91b966100ff610901c03",
     "url": "/css/chunk-vendors.ece97acf.css"
   },
   {
-    "revision": "6d8ca3f2c78a08968fc3",
+    "revision": "92f92c8a48602700795e",
     "url": "/css/resources.7afad37d.css"
   },
   {
-    "revision": "f06956166bb24144c2e3",
-    "url": "/css/words-list.a409dcbd.css"
+    "revision": "ccc802b5b27bee604c58",
+    "url": "/css/words-list.a984d46c.css"
   },
   {
     "revision": "29b882f018fa6fe75fd338aaae6235b8",
@@ -32,28 +32,28 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/chinchilla.5611d033.svg"
   },
   {
-    "revision": "8ab77836b0028ed0fe8ce36f3ee29bc8",
+    "revision": "31d515ea72581e8ea2e13845245c98a9",
     "url": "/index.html"
   },
   {
-    "revision": "923900a7c6a24f8abebb",
-    "url": "/js/add-card.cf2d87dd.js"
+    "revision": "a5b4147c89a97a67f4ba",
+    "url": "/js/add-card.0d7362bc.js"
   },
   {
-    "revision": "d02cab1bcd854ecc01ce",
-    "url": "/js/app.32d086c5.js"
+    "revision": "d67324b21ae54fae0dc6",
+    "url": "/js/app.1271ade2.js"
   },
   {
-    "revision": "76c2f6e7e440654117d6",
-    "url": "/js/chunk-vendors.f68affd6.js"
+    "revision": "91b966100ff610901c03",
+    "url": "/js/chunk-vendors.a9075812.js"
   },
   {
-    "revision": "6d8ca3f2c78a08968fc3",
-    "url": "/js/resources.55dd29f1.js"
+    "revision": "92f92c8a48602700795e",
+    "url": "/js/resources.d2493432.js"
   },
   {
-    "revision": "f06956166bb24144c2e3",
-    "url": "/js/words-list.38d2fdf1.js"
+    "revision": "ccc802b5b27bee604c58",
+    "url": "/js/words-list.19d5386f.js"
   },
   {
     "revision": "b4dca8103f0d22fa081bfdd38d3cbb4a",

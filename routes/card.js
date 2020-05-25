@@ -66,6 +66,7 @@ module.exports = function (router) {
         word: req.body.word,
         translation: req.body.word,
         notes: req.body.notes,
+        learned: req.body.learned,
       },
       { where: { id: req.params.id } }
     )

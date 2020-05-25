@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       notes: {
         type: DataTypes.STRING,
       },
+      learned: {
+        type: DataTypes.BOOLEAN,
+      },
     },
     {
       // Other model options go here
