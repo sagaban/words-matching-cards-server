@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       word: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
       },
       translation: {
         type: DataTypes.STRING,
@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   Card.associate = function (models) {
-    Card.belongsToMany(models.Tag, { as: 'tags', through: "card_tags" });
+    Card.belongsToMany(models.Tag, { as: "tags", through: "card_tags" });
+    Card.belongsTo(models.User);
   };
 };
