@@ -11,6 +11,7 @@ module.exports = function (router) {
           as: "tags",
           attributes: ["id"],
           through: { attributes: [] },
+          where: { UserId: req.user.id },
         },
       ],
     })
@@ -29,6 +30,7 @@ module.exports = function (router) {
           as: "tags",
           attributes: ["id"],
           through: { attributes: [] },
+          where: { UserId: req.user.id },
         },
       ],
     })
@@ -44,6 +46,7 @@ module.exports = function (router) {
       word: req.body.word,
       translation: req.body.translation,
       notes: req.body.notes,
+      UserId: req.user.id,
     })
       .then(newCard => {
         if (req.body.tags && req.body.tags.length) {
@@ -68,7 +71,7 @@ module.exports = function (router) {
         notes: req.body.notes,
         learned: req.body.learned,
       },
-      { where: { id: req.params.id } }
+      { where: { id: req.params.id, UserId: req.user.id } }
     )
       .then(updatedCard => {
         res.json(updatedCard);
@@ -78,7 +81,7 @@ module.exports = function (router) {
 
   router.delete("/cards/:id", (req, res) => {
     Card.destroy({
-      where: { id: req.params.id },
+      where: { id: req.params.id, UserId: req.user.id },
     })
       .then(word => {
         res.json(word);

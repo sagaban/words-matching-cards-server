@@ -5,6 +5,7 @@ module.exports = function (router) {
   router.get("/tags", (req, res) => {
     Tag.findAll({
       // include: [{ model: Card, as: "cards" }],
+      where: { UserId: req.user.id },
     })
       .then(tags => {
         res.json(tags);
@@ -14,7 +15,7 @@ module.exports = function (router) {
 
   router.get("/tags/:id", (req, res) => {
     Tag.findAll({
-      where: { id: req.params.id },
+      where: { id: req.params.id, UserId: req.user.id },
     })
       .then(tag => {
         res.json(tag[0]);
@@ -25,6 +26,7 @@ module.exports = function (router) {
   router.post("/tags", (req, res) => {
     Tag.create({
       name: req.body.name,
+      UserId: req.user.id,
     })
       .then(tag => {
         res.json(tag);
@@ -33,7 +35,10 @@ module.exports = function (router) {
   });
 
   router.put("/tags/:id", (req, res) => {
-    Tag.update({ name: req.body.name }, { where: { id: req.params.id } })
+    Tag.update(
+      { name: req.body.name },
+      { where: { id: req.params.id, UserId: req.user.id } }
+    )
       .then(updatedTag => {
         res.json(updatedTag);
       })
@@ -42,7 +47,7 @@ module.exports = function (router) {
 
   router.delete("/tags/:id", (req, res) => {
     Tag.destroy({
-      where: { id: req.params.id },
+      where: { id: req.params.id, UserId: req.user.id },
     })
       .then(tag => {
         res.json(tag);

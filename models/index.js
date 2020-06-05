@@ -10,6 +10,7 @@ const config = require(__dirname + "/../config/config.json")[env];
 
 let sequelize;
 if (config.use_env_variable) {
+  // production config
   sequelize = new Sequelize(process.env[config.use_env_variable], {
     dialect: config.dialect,
     protocol: config.protocol,

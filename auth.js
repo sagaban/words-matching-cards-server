@@ -9,19 +9,22 @@ module.exports = function auth(app) {
   app.use(passport.initialize());
   const opts = {};
 
-  opts.jwtFromRequest = function (req) {
+  // opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+  const jwtFromRequest = req => {
     var token = null;
     if (req && req.cookies) {
       token = req.cookies["jwt"];
     }
     return token;
   };
+  opts.jwtFromRequest = jwtFromRequest;
 
   opts.secretOrKey = process.env.JWT_SECRET;
+  // TODO: improve this (or not)
+  opts.ignoreExpiration = true;
 
   passport.use(
     new JwtStrategy(opts, async function (jwt_payload, done) {
-      console.log("JWT BASED VALIDATION GETTING CALLED");
       try {
         const user = await User.findOne(jwt_payload.data);
         if (user) {
@@ -78,8 +81,8 @@ module.exports = function auth(app) {
             data: { ...user, id: dbUser.id },
           },
           process.env.JWT_SECRET,
-          { expiresIn: 60 }
-        ); // expiry in seconds
+          { expiresIn: 60 } // expiry in seconds
+        );
         res.cookie("jwt", token);
         res.redirect("/cards");
       } catch (error) {
@@ -91,11 +94,49 @@ module.exports = function auth(app) {
     }
   );
 
-  app.get(
-    "/profile",
-    passport.authenticate("jwt", { session: false }),
-    (req, res) => {
-      res.send(`Welcome user ${req.user.email}`);
-    }
+  // This add user prop to the request
+  app.use(
+    "/api",
+    process.env.NODE_ENV === "production"
+      ? passport.authenticate("jwt", { session: false })
+      : async (req, res, next) => {
+          try {
+            const headerUser = JSON.parse(req.headers["x-custom-user"] || null);
+            let user;
+            if (headerUser) {
+              const dbUser = await User.findOrCreate({ where: headerUser });
+              user = {
+                id: dbUser[0].id,
+                email: dbUser[0].email,
+                name: dbUser[0].name,
+                provider: dbUser[0].provider,
+              };
+            } else {
+              const decoded = jwt.verify(token, process.env.JWT_SECRET, {
+                ignoreExpiration: true,
+              });
+              user = decoded.data;
+            }
+            req.user = user;
+            next();
+          } catch (error) {
+            console.error(error);
+            res.status(401).send(error);
+          }
+        }
   );
+
+  //   app.use("/api", (req, res, next) => {
+  //   const token = jwtFromRequest(req);
+  //   try {
+  //     const decoded = jwt.verify(token, process.env.JWT_SECRET, {
+  //       ignoreExpiration: true,
+  //     });
+  //     req.user = decoded.data;
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(401);
+  //   }
+  //   next();
+  // });
 };

@@ -30,7 +30,12 @@ function errorHandler(err, req, res, next) {
     return next(err);
   }
   res.status(500);
-  res.render("error", { error: err });
+  const error = Object.getOwnPropertyNames(err).reduce(
+    (acc, key) => ({ ...acc, [key]: err[key] }),
+    {}
+  );
+  console.error(error);
+  res.json({ error });
 }
 
 module.exports = app;
