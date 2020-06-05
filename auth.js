@@ -58,6 +58,36 @@ module.exports = function auth(app) {
     done(null, obj);
   });
 
+  app.get("/auth/noop", async (req, res, next) => {
+    if (process.env.NODE_ENV === "production") {
+      res.status(401).send("Unauthorized");
+    }
+    try {
+      const headerUser = JSON.parse(req.headers["x-custom-user"]);
+      if (headerUser) {
+        const dbUser = await User.findOrCreate({ where: headerUser });
+        const user = {
+          id: dbUser[0].id,
+          email: dbUser[0].email,
+          name: dbUser[0].name,
+          provider: dbUser[0].provider,
+        };
+
+        let token = jwt.sign(
+          {
+            data: user,
+          },
+          process.env.JWT_SECRET,
+          { expiresIn: 60 } // expiry in seconds
+        );
+        res.send(token)
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(401).send(error);
+    }
+  });
+
   app.get(
     "/auth/google",
     passport.authenticate("google", { scope: ["profile", "email"] })
@@ -95,36 +125,38 @@ module.exports = function auth(app) {
   );
 
   // This add user prop to the request
-  app.use(
-    "/api",
-    process.env.NODE_ENV === "production"
-      ? passport.authenticate("jwt", { session: false })
-      : async (req, res, next) => {
-          try {
-            const headerUser = JSON.parse(req.headers["x-custom-user"] || null);
-            let user;
-            if (headerUser) {
-              const dbUser = await User.findOrCreate({ where: headerUser });
-              user = {
-                id: dbUser[0].id,
-                email: dbUser[0].email,
-                name: dbUser[0].name,
-                provider: dbUser[0].provider,
-              };
-            } else {
-              const decoded = jwt.verify(token, process.env.JWT_SECRET, {
-                ignoreExpiration: true,
-              });
-              user = decoded.data;
-            }
-            req.user = user;
-            next();
-          } catch (error) {
-            console.error(error);
-            res.status(401).send(error);
-          }
-        }
-  );
+  app.use("/api", passport.authenticate("jwt", { session: false }));
+
+  // app.use(
+  //   "/api",
+  //   process.env.NODE_ENV === "production"
+  //     ? passport.authenticate("jwt", { session: false })
+  //     : async (req, res, next) => {
+  //         try {
+  //           const headerUser = JSON.parse(req.headers["x-custom-user"] || null);
+  //           let user;
+  //           if (headerUser) {
+  //             const dbUser = await User.findOrCreate({ where: headerUser });
+  //             user = {
+  //               id: dbUser[0].id,
+  //               email: dbUser[0].email,
+  //               name: dbUser[0].name,
+  //               provider: dbUser[0].provider,
+  //             };
+  //           } else {
+  //             const decoded = jwt.verify(token, process.env.JWT_SECRET, {
+  //               ignoreExpiration: true,
+  //             });
+  //             user = decoded.data;
+  //           }
+  //           req.user = user;
+  //           next();
+  //         } catch (error) {
+  //           console.error(error);
+  //           res.status(401).send(error);
+  //         }
+  //       }
+  // );
 
   //   app.use("/api", (req, res, next) => {
   //   const token = jwtFromRequest(req);
